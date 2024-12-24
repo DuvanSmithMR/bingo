@@ -21,16 +21,55 @@ const oStyle = { ...cellStyles, backgroundColor: "#e0e0e0", color: "#000000" };
 const centerStyle = { ...cellStyles, backgroundColor: "#ffffff", color: "#000000" };
 
 const BingoTable = ({ gameMode }) => {
-  // Crear el modelo del tablero de bingo
-  const board = [
-    ["X", "O", "O", "O", "X"],
-    ["O", "X", "O", "X", "O"],
-    ["O", "O", "-", "O", "O"],
-    ["O", "X", "O", "X", "O"],
-    ["X", "O", "O", "O", "X"],
-  ];
+  // Función para crear el tablero según el modo seleccionado
+  const generateBoard = () => {
+    let board = [
+      ["-", "-", "-", "-", "-"],
+      ["-", "-", "-", "-", "-"],
+      ["-", "-", "-", "-", "-"],
+      ["-", "-", "-", "-", "-"],
+      ["-", "-", "-", "-", "-"],
+    ];
 
-  // Generar el tablero según el tipo de bingo seleccionado
+    switch (gameMode) {
+      case "full":
+        // El modo 'fill' rellena todo el tablero
+        board = board.map(row => row.map(() => "X"));
+        break;
+
+      case "line":
+        // El modo 'line' selecciona la primera fila (puedes cambiarla a cualquier línea o columna)
+        board[0] = ["X", "X", "X", "X", "X"];
+        break;
+
+      case "corner":
+        // El modo 'corners' selecciona las esquinas
+        board[0][0] = "X"; // Esquina superior izquierda
+        board[0][4] = "X"; // Esquina superior derecha
+        board[4][0] = "X"; // Esquina inferior izquierda
+        board[4][4] = "X"; // Esquina inferior derecha
+        break;
+
+      case "cross":
+        // El modo 'cross' selecciona la cruz
+        board[0][0] = "X";
+        board[0][4] = "X";
+        board[4][0] = "X";
+        board[4][4] = "X";
+        board[2][2] = "X"; // Casilla central
+        break;
+
+      default:
+        // Por si no se pasa un tipo válido de juego
+        break;
+    }
+
+    return board;
+  };
+
+  const board = generateBoard();
+
+  // Generar el tablero según el modo seleccionado
   const renderBoard = () => {
     return board.map((row, rowIndex) => (
       <Grid container key={rowIndex} spacing={1} justifyContent="center">
@@ -61,7 +100,10 @@ const BingoTable = ({ gameMode }) => {
       <Grid item xs={12}>
         <Typography variant="h4" gutterBottom>
           Tabla de Bingo:{" "}
-          {gameMode === "x" ? "Bingo en X" : gameMode === "cross" ? "Bingo en Cruz" : gameMode === "corners" ? "Esquinas" : "Línea"}
+          {gameMode === "full" && "Relleno completo"}
+          {gameMode === "line" && "Línea completa"}
+          {gameMode === "corner" && "Esquinas"}
+          {gameMode === "cross" && "Cruz"}
         </Typography>
       </Grid>
       <Grid item xs={12}>

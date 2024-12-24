@@ -19,21 +19,26 @@ const BingoNumber = styled(Button)(({ selected }) => ({
 }));
 
 const BingoBoard = ({ numbers, toggleNumber }) => (
-  <Grid container spacing={1} justifyContent="center">
-    {["B", "I", "N", "G", "O"].map((letter, columnIndex) => (
+  <Grid container direction="column" spacing={2} alignItems="center">
+    {["B", "I", "N", "G", "O"].map((letter) => (
       <Grid item key={letter}>
-        <Typography variant="h6" align="center" gutterBottom>
-          {letter}
-        </Typography>
-        <Grid container direction="column" alignItems="center">
-          {numbers[letter].map((num, rowIndex) => (
-            <BingoNumber
-              key={`${letter}-${rowIndex}`}
-              selected={num.selected}
-              onClick={() => toggleNumber(letter, rowIndex)}
-            >
-              {num.value}
-            </BingoNumber>
+        <Grid container alignItems="center" spacing={1}>
+          {/* Encabezado */}
+          <Grid item>
+            <Typography variant="h6" align="center" gutterBottom>
+              {letter}
+            </Typography>
+          </Grid>
+          {/* Números Horizontales */}
+          {numbers[letter].map((num, index) => (
+            <Grid item key={`${letter}-${index}`}>
+              <BingoNumber
+                selected={num.selected}
+                onClick={() => toggleNumber(letter, index)}
+              >
+                {num.value}
+              </BingoNumber>
+            </Grid>
           ))}
         </Grid>
       </Grid>

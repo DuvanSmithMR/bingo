@@ -8,7 +8,7 @@ import Header from "./components/Header";
 
 const BingoContainer = styled(Box)(({ theme }) => ({
   padding: theme.spacing(4),
-  maxWidth: "900px",
+  maxWidth: "100%",
   margin: "auto",
   backgroundColor: "#fafafa",
   borderRadius: "12px",

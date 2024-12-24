@@ -5,7 +5,7 @@ import BingoBoard from "./components/BingoBoard";
 import GameModeSelector from "./components/GameModeSelector";
 import ResetButton from "./components/ResetButton";
 import Header from "./components/Header";
-import BingoApp from "./components/BingoApp";
+import BingoTable from "./components/BingoTable";  // Importar BingoTable en lugar de BingoApp
 
 const BingoContainer = styled(Box)(({ theme }) => ({
   padding: theme.spacing(4),
@@ -62,10 +62,11 @@ const App = () => {
   return (
     <BingoContainer>
       <Header />
-      {/* <GameModeSelector gameMode={gameMode} setGameMode={setGameMode} /> */}
+      <GameModeSelector gameMode={gameMode} setGameMode={setGameMode} />
       <BingoBoard numbers={numbers} toggleNumber={toggleNumber} />
       <ResetButton resetBoard={resetBoard} />
-      <BingoApp />
+      {/* Pasa el gameMode a BingoTable */}
+      <BingoTable gameMode={gameMode} />
     </BingoContainer>
   );
 };

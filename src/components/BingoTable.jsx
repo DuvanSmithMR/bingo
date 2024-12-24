@@ -20,7 +20,7 @@ const xStyle = { ...cellStyles, backgroundColor: "#ff5722", color: "#ffffff" };
 const oStyle = { ...cellStyles, backgroundColor: "#e0e0e0", color: "#000000" };
 const centerStyle = { ...cellStyles, backgroundColor: "#ffffff", color: "#000000" };
 
-const BingoTable = ({ bingoType }) => {
+const BingoTable = ({ gameMode }) => {
   // Crear el modelo del tablero de bingo
   const board = [
     ["X", "O", "O", "O", "X"],
@@ -32,11 +32,9 @@ const BingoTable = ({ bingoType }) => {
 
   // Generar el tablero según el tipo de bingo seleccionado
   const renderBoard = () => {
-    // Si es tipo "X", se colocan las "X" y "O" según el modelo
     return board.map((row, rowIndex) => (
       <Grid container key={rowIndex} spacing={1} justifyContent="center">
         {row.map((cell, colIndex) => {
-          // Aplicar los estilos dependiendo de la casilla (X, O, -)
           let style;
           if (cell === "X") {
             style = xStyle;
@@ -62,7 +60,8 @@ const BingoTable = ({ bingoType }) => {
     <Grid container direction="column" spacing={2} alignItems="center">
       <Grid item xs={12}>
         <Typography variant="h4" gutterBottom>
-          Tabla de Bingo: {bingoType === "x" ? "Bingo en X" : "Otro Tipo de Bingo"}
+          Tabla de Bingo:{" "}
+          {gameMode === "x" ? "Bingo en X" : gameMode === "cross" ? "Bingo en Cruz" : gameMode === "corners" ? "Esquinas" : "Línea"}
         </Typography>
       </Grid>
       <Grid item xs={12}>

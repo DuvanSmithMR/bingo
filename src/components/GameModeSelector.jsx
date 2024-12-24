@@ -1,16 +1,32 @@
-import React from 'react';
-import { Select, MenuItem, FormControl, InputLabel } from '@mui/material';
+import React from "react";
+import { ToggleButtonGroup, ToggleButton } from "@mui/material";
 
-const GameModeSelector = ({ mode, setMode }) => (
-  <FormControl fullWidth>
-    <InputLabel>Modo de Juego</InputLabel>
-    <Select value={mode} onChange={(e) => setMode(e.target.value)}>
-      <MenuItem value="full">Cartón lleno</MenuItem>
-      <MenuItem value="horizontal">Línea horizontal</MenuItem>
-      <MenuItem value="vertical">Línea vertical</MenuItem>
-      <MenuItem value="diagonal">Diagonal</MenuItem>
-    </Select>
-  </FormControl>
-);
+const GameModeSelector = ({ gameMode, setGameMode }) => {
+  const handleGameModeChange = (_, newMode) => {
+    if (newMode) {
+      setGameMode(newMode);
+    }
+  };
+
+  return (
+    <ToggleButtonGroup
+      value={gameMode}
+      exclusive
+      onChange={handleGameModeChange}
+      aria-label="Modo de Juego"
+      sx={{ mb: 3 }}
+    >
+      <ToggleButton value="full" aria-label="Completo">
+        Tablero Completo
+      </ToggleButton>
+      <ToggleButton value="line" aria-label="Línea">
+        Línea
+      </ToggleButton>
+      <ToggleButton value="corner" aria-label="Esquinas">
+        Esquinas
+      </ToggleButton>
+    </ToggleButtonGroup>
+  );
+};
 
 export default GameModeSelector;

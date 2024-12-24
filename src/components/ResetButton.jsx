@@ -1,8 +1,8 @@
-import React from 'react';
-import { Button } from '@mui/material';
+import React from "react";
+import { Button } from "@mui/material";
 
-const ResetButton = ({ onReset }) => (
-  <Button variant="outlined" color="secondary" onClick={onReset}>
+const ResetButton = ({ resetBoard }) => (
+  <Button variant="contained" color="secondary" onClick={resetBoard} sx={{ mt: 3 }}>
     Reiniciar Tablero
   </Button>
 );

@@ -1,47 +1,58 @@
-import React, { useState, useEffect } from 'react';
-import BingoBoard from './components/BingoBoard';
-import BallSelector from './components/BallSelector';
-import GameModeSelector from './components/GameModeSelector';
-import ResetButton from './components/ResetButton.jsx';
-import { saveToLocalStorage, getFromLocalStorage } from './utils/localStorage';
+import React, { useState, useEffect } from "react";
+import { Box } from "@mui/material";
+import { styled } from "@mui/system";
+import BingoBoard from "./components/BingoBoard";
+import GameModeSelector from "./components/GameModeSelector";
+import ResetButton from "./components/ResetButton";
+import Header from "./components/Header";
+
+const BingoContainer = styled(Box)(({ theme }) => ({
+  padding: theme.spacing(4),
+  maxWidth: "800px",
+  margin: "auto",
+  backgroundColor: "#fafafa",
+  borderRadius: "12px",
+  boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+  textAlign: "center",
+}));
 
 const App = () => {
-  const initialNumbers = getFromLocalStorage('bingoNumbers', {
-    B: Array.from({ length: 15 }, (_, i) => ({ value: i + 1, selected: false })),
-    I: Array.from({ length: 15 }, (_, i) => ({ value: i + 16, selected: false })),
-    N: Array.from({ length: 15 }, (_, i) => ({ value: i + 31, selected: false })),
-    G: Array.from({ length: 15 }, (_, i) => ({ value: i + 46, selected: false })),
-    O: Array.from({ length: 15 }, (_, i) => ({ value: i + 61, selected: false })),
-  });
+  const initialBoard = Array(25)
+    .fill()
+    .map((_, i) => ({
+      number: i + 1,
+      marked: false,
+    }));
 
-  const [numbers, setNumbers] = useState(initialNumbers);
-  const [mode, setMode] = useState('full');
+  const [board, setBoard] = useState(() =>
+    JSON.parse(localStorage.getItem("bingoBoard")) || initialBoard
+  );
+  const [gameMode, setGameMode] = useState(() =>
+    localStorage.getItem("bingoMode") || "full"
+  );
 
   useEffect(() => {
-    saveToLocalStorage('bingoNumbers', numbers);
-  }, [numbers]);
+    localStorage.setItem("bingoBoard", JSON.stringify(board));
+    localStorage.setItem("bingoMode", gameMode);
+  }, [board, gameMode]);
 
-  const toggleNumber = (letter, value) => {
-    setNumbers((prev) => ({
-      ...prev,
-      [letter]: prev[letter].map((num) =>
-        num.value === value ? { ...num, selected: !num.selected } : num
-      ),
-    }));
+  const toggleNumber = (index) => {
+    const updatedBoard = [...board];
+    updatedBoard[index].marked = !updatedBoard[index].marked;
+    setBoard(updatedBoard);
   };
 
   const resetBoard = () => {
-    setNumbers(initialNumbers);
+    setBoard(initialBoard);
   };
 
   return (
-    <div style={{ padding: 20 }}>
-      <h1>Bingo Tradicional</h1>
-      <GameModeSelector mode={mode} setMode={setMode} />
-      <BingoBoard numbers={numbers} onToggle={toggleNumber} />
-      <BallSelector onMark={toggleNumber} />
-      <ResetButton onReset={resetBoard} />
-    </div>
+    <BingoContainer>
+      <Header />
+      <GameModeSelector gameMode={gameMode} setGameMode={setGameMode} />
+      <BingoBoard board={board} toggleNumber={toggleNumber} />
+      <ResetButton resetBoard={resetBoard} />
+    </BingoContainer>
   );
 };
 

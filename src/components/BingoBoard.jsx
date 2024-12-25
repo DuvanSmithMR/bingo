@@ -3,9 +3,9 @@ import { Grid, Typography, Button } from "@mui/material";
 import { styled } from "@mui/system";
 
 const BingoNumber = styled(Button)(({ selected }) => ({
-  width: "60px",
-  height: "60px",
-  fontSize: "1.2rem",
+  width: "6rem",
+  height: "6rem",
+  fontSize: "4rem",
   fontWeight: "bold",
   borderRadius: "8px",
   margin: "4px",
